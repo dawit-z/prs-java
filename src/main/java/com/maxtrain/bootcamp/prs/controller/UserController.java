@@ -1,5 +1,7 @@
-package com.maxtrain.bootcamp.prs.user;
+package com.maxtrain.bootcamp.prs.controller;
 
+import com.maxtrain.bootcamp.prs.repository.UserRepository;
+import com.maxtrain.bootcamp.prs.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping("api/users")
+@RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
@@ -28,8 +30,17 @@ public class UserController {
         return new ResponseEntity<>(user.get(), HttpStatus.FOUND);
     }
 
+    @GetMapping("{username}/{password}")
+    public ResponseEntity<User> findByUsernameAndPassword(@PathVariable String username, @PathVariable String password){
+        var user = uRepo.findByUsernameAndPassword(username, password);
+        if (user.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(user.get(), HttpStatus.FOUND);
+    }
+
     @PostMapping
-    public ResponseEntity<User> postUser(@RequestBody User user) {
+    public ResponseEntity<Object> postUser(@RequestBody User user) {
         if(user == null || user.getId() != 0){
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }

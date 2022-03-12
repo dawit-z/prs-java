@@ -1,4 +1,4 @@
-package com.maxtrain.bootcamp.prs.user;
+package com.maxtrain.bootcamp.prs.model;
 
 import javax.persistence.*;
 
@@ -22,11 +22,21 @@ public class User {
     private String phone;
     private String email;
     @Column(nullable = false)
-    private boolean isReviewer;
+    private boolean reviewer;
     @Column(nullable = false)
-    private boolean isAdmin;
+    private boolean admin;
 
     public User() {}
+
+    public User(int id, String username, String password, String firstName, String lastName, boolean reviewer, boolean admin) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.reviewer = reviewer;
+        this.admin = admin;
+    }
 
     public int getId() {
         return id;
@@ -70,16 +80,16 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-    public boolean getReviewer() {
-        return isReviewer;
+    public boolean isReviewer() {
+        return reviewer;
     }
     public void setReviewer(boolean reviewer) {
-        isReviewer = reviewer;
+        this.reviewer = reviewer;
     }
-    public boolean getAdmin() {
-        return isAdmin;
+    public boolean isAdmin() {
+        return admin;
     }
     public void setAdmin(boolean admin) {
-        isAdmin = admin;
+        this.admin = admin;
     }
 }
