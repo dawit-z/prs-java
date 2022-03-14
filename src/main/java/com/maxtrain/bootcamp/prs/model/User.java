@@ -5,11 +5,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "users")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     @Column(nullable = false, unique = true, length = 30)
     private String username;
     @Column(length = 30, nullable = false)
