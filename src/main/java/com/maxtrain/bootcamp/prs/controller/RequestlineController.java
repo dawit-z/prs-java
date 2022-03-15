@@ -1,9 +1,6 @@
 package com.maxtrain.bootcamp.prs.controller;
 
-import com.maxtrain.bootcamp.prs.model.Product;
-import com.maxtrain.bootcamp.prs.model.Request;
 import com.maxtrain.bootcamp.prs.model.Requestline;
-import com.maxtrain.bootcamp.prs.repository.ProductRepository;
 import com.maxtrain.bootcamp.prs.repository.RequestRepository;
 import com.maxtrain.bootcamp.prs.repository.RequestlineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +18,6 @@ public class RequestlineController {
 
     @Autowired
     private RequestRepository rRepo;
-
-//    private ResponseEntity calculateRequest(int requestId) {
-//        var req = rRepo.findById(requestId);
-//        if (req.isEmpty()){
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//        var request = req.get();
-//
-//
-//    }
 
     @GetMapping
     public ResponseEntity<Iterable<Requestline>> findRequestlines() {
@@ -53,6 +40,7 @@ public class RequestlineController {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
         var rl = rlRepo.save(line);
+        recalculateRequestTotal(line.getRequest().getId());
         return new ResponseEntity<>(rl, HttpStatus.OK);
     }
 
@@ -66,6 +54,7 @@ public class RequestlineController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         var result = rlRepo.save(line);
+        recalculateRequestTotal(line.getRequest().getId());
         return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
     }
 
@@ -76,7 +65,25 @@ public class RequestlineController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         rlRepo.delete(line.get());
+        var request = line.get().getRequest();
+        recalculateRequestTotal(request.getId());
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private void recalculateRequestTotal(int requestId) {
+        var req = rRepo.findById(requestId);
+        if (req.isEmpty()){
+            new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return;
+        }
+        var request = req.get();
+        var total = 0;
+        for (var line : request.getRequestlines()) {
+            total += line.getProduct().getPrice() * line.getQuantity();
+        }
+        request.setTotal(total);
+        rRepo.save(request);
+        new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
