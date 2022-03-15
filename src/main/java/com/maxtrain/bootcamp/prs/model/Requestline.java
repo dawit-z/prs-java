@@ -12,9 +12,9 @@ public class Requestline {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @JsonBackReference
     @ManyToOne(optional = false)
     @JoinColumn(name = "request_id")
-    @JsonBackReference
     private Request request;
 
     @ManyToOne(optional = false)

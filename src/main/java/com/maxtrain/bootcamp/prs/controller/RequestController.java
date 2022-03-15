@@ -1,8 +1,6 @@
 package com.maxtrain.bootcamp.prs.controller;
 
 import com.maxtrain.bootcamp.prs.model.Request;
-import com.maxtrain.bootcamp.prs.model.User;
-import com.maxtrain.bootcamp.prs.model.Vendor;
 import com.maxtrain.bootcamp.prs.repository.RequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

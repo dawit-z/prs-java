@@ -19,8 +19,9 @@ public class Product {
     private String unit;
     private String photoPath;
 
+
     @ManyToOne(optional = false)
-    @JoinColumn(name = "vendor_id", columnDefinition = "int")
+    @JoinColumn(name = "vendor_id")
     private Vendor vendor;
 
     public Product(){}
