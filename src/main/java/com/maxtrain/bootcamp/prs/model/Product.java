@@ -9,16 +9,20 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column(length = 30, nullable = false, unique = true)
     private String partNbr;
+
     @Column(length = 30, nullable = false)
     private String name;
+
     @Column(columnDefinition = "decimal(11,2) NOT NULL DEFAULT 0.0 ")
     private double price;
+
     @Column(length = 30, nullable = false)
     private String unit;
-    private String photoPath;
 
+    private String photoPath;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "vendor_id")
@@ -74,5 +78,8 @@ public class Product {
     }
     public Vendor getVendor() {
         return vendor;
+    }
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
     }
 }

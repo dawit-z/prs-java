@@ -1,6 +1,5 @@
 package com.maxtrain.bootcamp.prs.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.data.annotation.ReadOnlyProperty;
 
@@ -33,7 +32,6 @@ public class Request {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
-    @JsonBackReference
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "request")
